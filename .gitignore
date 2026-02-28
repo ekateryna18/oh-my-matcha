@@ -1,0 +1,210 @@
+# Oh My Matcha — Git Ignore
+# React 19 + NestJS + MongoDB + Docker
+
+# ==========================================
+# Environment & Secrets (CRITICAL)
+# ==========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ⚠️ KEEP COMMITTED: .env.example (no real values)
+
+# ==========================================
+# Dependencies
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# ==========================================
+# Build Outputs
+# ==========================================
+# React build
+app/build/
+app/dist/
+
+# NestJS build
+api/dist/
+api/build/
+
+# TypeScript
+*.tsbuildinfo
+
+# ==========================================
+# IDEs & Editors
+# ==========================================
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ / WebStorm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ==========================================
+# Operating System Files
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ==========================================
+# Docker
+# ==========================================
+# Don't ignore docker-compose files (needed for deployment)
+# But ignore runtime data
+docker-compose.override.yml
+.dockerignore
+
+# MongoDB data (if running locally)
+mongo_data/
+data/db/
+
+# ==========================================
+# Logs
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ==========================================
+# Testing
+# ==========================================
+coverage/
+*.lcov
+.nyc_output/
+.jest/
+
+# ==========================================
+# Temporary Files
+# ==========================================
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+.next/
+out/
+
+# ==========================================
+# React Specific
+# ==========================================
+# CRA (Create React App)
+app/.env.local
+app/.env.development.local
+app/.env.test.local
+app/.env.production.local
+
+# Vite (if using)
+app/.vite/
+
+# ==========================================
+# NestJS Specific
+# ==========================================
+api/.env
+api/.env.local
+api/dist/
+
+# ==========================================
+# Database
+# ==========================================
+# MongoDB dumps
+*.dump
+dump/
+
+# SQLite (if used for testing)
+*.sqlite
+*.sqlite3
+*.db
+
+# ==========================================
+# Brevo / Email Service
+# ==========================================
+# No secrets committed
+brevo-config.json
+
+# ==========================================
+# AI Agent Session Data (Optional)
+# ==========================================
+# If agents generate temporary files
+_byan/.cache/
+_byan/temp/
+
+# ==========================================
+# Misc
+# ==========================================
+# Lock files (choose one strategy)
+# Uncomment if you want to ignore lock files:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Generated documentation (keep source .md files)
+docs/generated/
+
+# ==========================================
+# GDPR / Privacy (Extra Safety)
+# ==========================================
+# Ensure no user data committed
+user_data/
+backups/
+exports/
+
+# ==========================================
+# Production Secrets
+# ==========================================
+# SSL certificates (if any)
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Cloud credentials
+credentials.json
+service-account.json
+gcp-key.json
+
+# ==========================================
+# END
+# ==========================================
