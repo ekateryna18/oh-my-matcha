@@ -1,0 +1,62 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: ommatcha_api
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./api:/api
+      - /api/node_modules
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ommatcha_db
+      DB_PORT: 27017
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: oh_my_matcha
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: development
+    networks:
+      - ommatcha_network
+    restart: unless-stopped
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: ommatcha_app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    environment:
+      VITE_API_URL: http://localhost:3001
+    networks:
+      - ommatcha_network
+    restart: unless-stopped
+
+  db:
+    image: mongo:7.0
+    container_name: ommatcha_db
+    hostname: ommatcha_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: oh_my_matcha
+    networks:
+      - ommatcha_network
+    restart: unless-stopped
+
+networks:
+  ommatcha_network:
+
+volumes:
+  mongo_data:
