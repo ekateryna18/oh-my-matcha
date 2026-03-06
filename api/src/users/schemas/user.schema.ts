@@ -96,7 +96,7 @@ export const UserSchema = SchemaFactory.createForClass(User);
 // Strip passwordHash from all serialized responses — GDPR / security rule
 UserSchema.set('toJSON', {
   transform: (_doc, ret) => {
-    delete ret.passwordHash;
+    delete (ret as { passwordHash?: string }).passwordHash;
     return ret;
   },
 });

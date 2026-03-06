@@ -109,17 +109,16 @@ NODE_ENV=development
 ```
 
 ### Project setup
-- [ ] Clone the previous Docker project as base
-- [ ] Create `docker-compose.yml` (local) and `docker-compose.prod.yml` (server)
-- [ ] Create local `.env` + `.env.example` on Git
-- [ ] Add `.env` to `.gitignore`
-- [ ] Verify `docker-compose up` launches all 3 containers locally
-- [ ] Initialize Git repo + branches (`main`, `dev`)
+- [x] Create `docker-compose.yml` (local) (and `docker-compose.prod.yml` (server))
+- [x] Create local `.env`( + `.env.example` on Git)
+- [x] Add `.env` to `.gitignore`
+- [x] Verify `docker-compose up` launches all 3 containers locally
+- [x] Initialize Git repo + branches (`main`, `dev`)
 
 ### MongoDB models
-- [ ] `User` schema — email, passwordHash, firstName, lastName, billingAddress, loyaltyPoints, cookieConsents
-- [ ] `Product` schema — name, category, price, options (milks, sizes), allergens, availability
-- [ ] MongoDB seed — insert Oh My Matcha products (matcha latte, bubble tea, teas)
+- [x] `User` schema — email, passwordHash, firstName, lastName, billingAddress, loyaltyPoints, cookieConsents
+- [x] `Product` schema — name, category, price, options (milks, sizes), allergens, availability
+- [x] MongoDB seed — insert Oh My Matcha products (matcha latte, bubble tea, teas)
 
 ### Auth module (NestJS)
 - [ ] `POST /auth/register` — registration, bcrypt password hash
