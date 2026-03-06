@@ -121,12 +121,12 @@ NODE_ENV=development
 - [x] MongoDB seed — insert Oh My Matcha products (matcha latte, bubble tea, teas)
 
 ### Auth module (NestJS)
-- [ ] `POST /auth/register` — registration, bcrypt password hash
-- [ ] `POST /auth/login` — login, returns JWT
+- [X] `POST /auth/register` — registration, bcrypt password hash
+- [x] `POST /auth/login` — login, returns JWT
 - [ ] `auth_token` cookie as `httpOnly` — 1 day duration
 - [ ] `csrf_token` cookie — generated and validated on all forms
 - [ ] JWT guard — protects private routes
-- [ ] `GET /users/me` — logged-in user profile
+- [x] `GET /users/me` — logged-in user profile
 - [ ] `PATCH /users/me` — update personal information
 - [ ] `DELETE /users/me` — delete account (GDPR right to erasure)
 - [ ] `PATCH /users/me/consents` — update cookie consents
