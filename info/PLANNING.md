@@ -123,13 +123,13 @@ NODE_ENV=development
 ### Auth module (NestJS)
 - [X] `POST /auth/register` — registration, bcrypt password hash
 - [x] `POST /auth/login` — login, returns JWT
-- [ ] `auth_token` cookie as `httpOnly` — 1 day duration
-- [ ] `csrf_token` cookie — generated and validated on all forms
-- [ ] JWT guard — protects private routes
+- [x] `auth_token` cookie as `httpOnly` — 1 day duration
+- [x] `csrf_token` cookie — generated and validated on all forms
+- [x] JWT guard — protects private routes
 - [x] `GET /users/me` — logged-in user profile
-- [ ] `PATCH /users/me` — update personal information
-- [ ] `DELETE /users/me` — delete account (GDPR right to erasure)
-- [ ] `PATCH /users/me/consents` — update cookie consents
+- [x] `PATCH /users/me` — update personal information
+- [x] `DELETE /users/me` — delete account (GDPR right to erasure)
+- [x] `PATCH /users/me/consents` — update cookie consents
 
 ---
 

@@ -19,4 +19,12 @@ export class UsersService {
   async findByEmail(email: string): Promise<UserDocument | null> {
     return this.userModel.findOne({ email: email.toLowerCase() }).exec();
   }
+
+  async updateById(id: string, data: Partial<User>): Promise<UserDocument | null> {
+    return this.userModel.findByIdAndUpdate(id, { $set: data }, { new: true }).exec();
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.userModel.findByIdAndDelete(id).exec();
+  }
 }
