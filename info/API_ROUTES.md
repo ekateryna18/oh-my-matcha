@@ -191,6 +191,114 @@ curl -s -o /dev/null -w "%{http_code}" \
 
 ---
 
+## Products — `/products`
+
+Routes publiques — aucun cookie requis.
+
+### GET /products
+
+Retourne tous les produits disponibles. Filtre optionnel par catégorie.
+
+```bash
+# Tous les produits
+curl -s http://localhost:3001/api/products | python3 -m json.tool
+
+# Par catégorie (matcha | bubble_tea | tea)
+curl -s "http://localhost:3001/api/products?category=matcha" | python3 -m json.tool
+curl -s "http://localhost:3001/api/products?category=bubble_tea" | python3 -m json.tool
+curl -s "http://localhost:3001/api/products?category=tea" | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + tableau de produits |
+
+---
+
+### GET /products/:id
+
+Retourne le détail d'un produit avec toutes ses options de customisation.
+
+```bash
+curl -s http://localhost:3001/api/products/<id> | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + produit complet |
+| ID invalide ou produit introuvable | 404 |
+
+---
+
+## Cart — `/cart`
+
+> Toutes les routes requièrent le cookie `auth_token`.
+> Le cookie `cart_id` (httpOnly, session) est posé automatiquement à la première requête.
+
+### GET /cart
+
+Retourne le panier de l'utilisateur connecté. Le crée s'il n'existe pas encore.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt -c /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/cart | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + panier avec `items[]` et `totalAmount` |
+| Non connecté | 401 |
+
+---
+
+### POST /cart
+
+Ajoute un article au panier. Le prix est snapshoté au moment de l'ajout.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt -c /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/cart \
+  -H "Content-Type: application/json" \
+  -d '{
+    "productId": "<id>",
+    "quantity": 2,
+    "customization": {
+      "flavour": "vanille",
+      "temperature": "chaud",
+      "sweetnessLevel": "normal",
+      "syrup": "sans sirop",
+      "milkType": "lait d'\''avoine"
+    }
+  }' | python3 -m json.tool
+```
+
+Champs : `productId` (requis), `quantity` (optionnel, défaut 1), `customization` (optionnel).
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + panier mis à jour avec `totalAmount` |
+| Produit introuvable | 404 |
+| Non connecté | 401 |
+
+---
+
+### DELETE /cart/:itemId
+
+Supprime un article du panier par son `_id` (présent dans `items[]`).
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X DELETE http://localhost:3001/api/cart/<itemId> | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + panier mis à jour |
+| Article introuvable | 404 |
+| Non connecté | 401 |
+
+---
+
 ## Séquence de test complète
 
 ```bash
