@@ -299,6 +299,102 @@ curl -s -b /tmp/ommatcha_cookie.txt \
 
 ---
 
+## Créneaux — `/slots`
+
+### GET /slots
+
+Retourne les créneaux disponibles pour aujourd'hui (currentOrders < maxOrders).
+Créneaux générés automatiquement au premier appel : 11:00–18:45, intervalles de 15 min (32 créneaux), max 5 commandes chacun.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/slots | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + tableau de créneaux |
+| Non connecté | 401 |
+
+---
+
+## Commandes — `/orders`
+
+### POST /orders
+
+Crée une commande en statut `pending` à partir du panier actuel.
+
+Prérequis :
+- Être connecté (JWT cookie)
+- Avoir une adresse de facturation renseignée (`billingAddress`)
+- Panier non vide
+- Créneau valide (parmi ceux retournés par GET /slots)
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{"pickupSlot":"14:00","applyCredit":false}' | python3 -m json.tool
+```
+
+Pour utiliser le crédit fidélité (nécessite ≥ 50 points) :
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{"pickupSlot":"14:00","applyCredit":true}' | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 201 + commande créée (status: pending) |
+| Panier vide | 400 |
+| Adresse de facturation manquante | 400 |
+| Créneau non disponible | 400 |
+| Pas assez de points fidélité | 400 |
+| Non connecté | 401 |
+
+---
+
+### PATCH /orders/:id/confirm
+
+Confirme une commande `pending`. Déclenche :
+- Passage au statut `confirmed`
+- Incrémentation du créneau (currentOrders + 1)
+- Crédit des points fidélité (1€ = 1 point)
+- Déduction de 50 points si crédit appliqué
+- Vidage du panier
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X PATCH http://localhost:3001/api/orders/<orderId>/confirm | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + commande confirmée |
+| Commande introuvable ou pas la sienne | 404 |
+| Commande déjà confirmée/autre statut | 400 |
+| Non connecté | 401 |
+
+---
+
+### GET /users/me/orders
+
+Retourne toutes les commandes de l'utilisateur connecté, triées par date décroissante.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/users/me/orders | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + tableau de commandes |
+| Non connecté | 401 |
+
+---
+
 ## Séquence de test complète
 
 ```bash
@@ -330,7 +426,23 @@ curl -s -b /tmp/ommatcha_cookie.txt -X PATCH http://localhost:3001/api/users/me/
   -d '{"marketing":true,"functional":true,"version":"1.1"}' \
   | python3 -m json.tool
 
-# 6. Supprimer son compte
+# 6. Voir les créneaux disponibles
+curl -s -b /tmp/ommatcha_cookie.txt http://localhost:3001/api/slots | python3 -m json.tool
+
+# 7. Créer une commande (adapter le créneau selon ce que retourne /slots)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{"pickupSlot":"14:00","applyCredit":false}' | python3 -m json.tool
+
+# 8. Confirmer la commande (remplacer <orderId> par l'_id retourné)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X PATCH http://localhost:3001/api/orders/<orderId>/confirm | python3 -m json.tool
+
+# 9. Voir ses commandes
+curl -s -b /tmp/ommatcha_cookie.txt http://localhost:3001/api/users/me/orders | python3 -m json.tool
+
+# 10. Supprimer son compte
 curl -s -o /dev/null -w "%{http_code}" \
   -b /tmp/ommatcha_cookie.txt -X DELETE http://localhost:3001/api/users/me
 ```

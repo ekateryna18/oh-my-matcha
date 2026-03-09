@@ -63,6 +63,14 @@ export class CartService {
     return this.toResponse(cart);
   }
 
+  async getCartDocument(userId: string) {
+    return this.cartModel.findOne({ userId }).exec();
+  }
+
+  async clearByUserId(userId: string): Promise<void> {
+    await this.cartModel.findOneAndUpdate({ userId }, { $set: { items: [] } }).exec();
+  }
+
   async removeItem(userId: string, itemId: string) {
     if (!isValidObjectId(itemId)) {
       throw new NotFoundException('Article introuvable.');
