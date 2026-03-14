@@ -4,25 +4,123 @@ Base URL : `http://localhost:3001/api`
 
 ---
 
-## Configuration initiale
+## Configuration initiale (à faire une seule fois)
 
-### 1. Activer la gestion des cookies
-Postman gère automatiquement les cookies httpOnly (auth_token, cart_id).
-Vérifie que la case **"Automatically follow redirects"** est cochée dans les paramètres.
+### Étape 1 — Créer une Collection
 
-### 2. Header à ajouter sur toutes les requêtes avec body
-| Key | Value |
-|---|---|
-| `Content-Type` | `application/json` |
+Une collection regroupe toutes tes requêtes au même endroit.
 
-### 3. Variable d'environnement recommandée
-Crée un environnement Postman avec :
-| Variable | Value |
-|---|---|
-| `BASE_URL` | `http://localhost:3001/api` |
-| `USER_ID` | *(à remplir après login)* |
-| `ORDER_ID` | *(à remplir après création de commande)* |
-| `ITEM_ID` | *(à remplir après ajout au panier)* |
+1. Dans la barre latérale gauche, clique sur **Collections**
+2. Clique sur le bouton **+** (New Collection)
+3. Nomme-la `Oh My Matcha`
+4. Clique sur **Create**
+
+Toutes tes requêtes seront créées à l'intérieur de cette collection.
+
+---
+
+### Étape 2 — Créer un Environnement
+
+Un environnement contient des **variables réutilisables** (ex: l'URL de base, les IDs).
+Au lieu d'écrire `http://localhost:3001/api` dans chaque requête, tu écris `{{BASE_URL}}` et Postman le remplace automatiquement.
+
+**Pour créer l'environnement :**
+
+1. Dans la barre latérale gauche, clique sur **Environments** (icône en forme d'œil ou globe)
+2. Clique sur **+** (Add environment)
+3. Nomme-le `Oh My Matcha - Local`
+4. Ajoute les variables suivantes en cliquant sur **Add a new variable** pour chacune :
+
+| Variable | Initial Value | Description |
+|---|---|---|
+| `BASE_URL` | `http://localhost:3001/api` | URL de base de l'API |
+| `PRODUCT_ID` | *(laisser vide)* | Rempli manuellement après GET /products |
+| `ITEM_ID` | *(laisser vide)* | Rempli manuellement après POST /cart |
+| `SLOT` | *(laisser vide)* | Rempli manuellement après GET /slots |
+| `ORDER_ID` | *(laisser vide)* | Rempli manuellement après POST /orders |
+
+5. Clique sur **Save** (en haut à droite)
+
+---
+
+### Étape 3 — Activer l'environnement
+
+> ⚠️ Sans cette étape, les variables `{{BASE_URL}}` etc. ne fonctionneront pas.
+
+1. En haut à droite de Postman, il y a un menu déroulant qui dit **"No Environment"**
+2. Clique dessus et sélectionne **Oh My Matcha - Local**
+3. L'environnement est maintenant actif — tu verras son nom affiché en haut à droite
+
+---
+
+### Étape 4 — Comment utiliser les variables dans une requête
+
+Dans le champ URL d'une requête, utilise `{{NOM_VARIABLE}}` entre doubles accolades :
+
+```
+{{BASE_URL}}/users/me
+```
+
+Postman remplace automatiquement `{{BASE_URL}}` par `http://localhost:3001/api`.
+
+Pour utiliser un ID dynamique dans l'URL :
+```
+{{BASE_URL}}/orders/{{ORDER_ID}}/confirm
+```
+
+---
+
+### Étape 5 — Mettre à jour une variable manuellement
+
+Quand une requête te retourne un `_id` (ex: après POST /orders), tu dois le copier dans la variable `ORDER_ID` pour l'utiliser dans la requête suivante.
+
+**Comment faire :**
+
+1. Envoie ta requête (ex: POST /orders)
+2. Dans la réponse en bas, repère le champ `_id` :
+   ```json
+   { "_id": "69aeb2b45aa6c3c9f1a7f255", ... }
+   ```
+3. Copie la valeur (sans les guillemets)
+4. Va dans **Environments** → **Oh My Matcha - Local**
+5. Colle la valeur dans la colonne **Current Value** de la variable `ORDER_ID`
+6. Clique **Save**
+7. Retourne dans ta requête PATCH /orders/{{ORDER_ID}}/confirm → elle utilisera maintenant le bon ID
+
+> La colonne **Initial Value** est ce qui est partagé si tu exportes l'environnement.
+> La colonne **Current Value** est ce qui est utilisé en local — c'est celle-là qu'il faut remplir.
+
+---
+
+### Étape 6 — Créer une requête dans la collection
+
+1. Clique sur ta collection **Oh My Matcha** dans la barre latérale
+2. Clique sur les **...** à côté du nom → **Add request**
+3. Nomme la requête (ex: `POST /auth/login`)
+4. Sélectionne la méthode (GET, POST, PATCH, DELETE) dans le menu déroulant à gauche de l'URL
+5. Entre l'URL : `{{BASE_URL}}/auth/login`
+6. Pour les requêtes avec body :
+   - Clique sur l'onglet **Body**
+   - Sélectionne **raw**
+   - Dans le menu déroulant à droite (qui dit "Text"), sélectionne **JSON**
+   - Colle ton JSON dans le champ
+7. Clique **Send** pour envoyer
+8. Clique **Save** (Ctrl+S) pour sauvegarder la requête dans la collection
+
+---
+
+### Étape 7 — Les cookies (auth_token, cart_id)
+
+Ces cookies sont `httpOnly` — le navigateur ne peut pas les lire, mais **Postman les gère automatiquement**.
+
+- Après POST /auth/login → Postman stocke le cookie `auth_token`
+- Toutes les requêtes suivantes vers `localhost:3001` l'enverront automatiquement
+- Tu n'as rien à faire manuellement
+- Pour voir les cookies stockés : clique sur **Cookies** (lien en haut à droite de la zone de réponse)
+
+> Si tu reçois des **401 Unauthorized** sur des routes protégées, c'est que le cookie `auth_token` n'est pas présent. Refais POST /auth/login.
+
+---
 
 ---
 
