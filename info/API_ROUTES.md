@@ -395,6 +395,81 @@ curl -s -b /tmp/ommatcha_cookie.txt \
 
 ---
 
+## Fidélité — `/users/me/loyalty`
+
+### GET /users/me/loyalty
+
+Retourne le solde de points fidélité et l'historique des gains de l'utilisateur connecté.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/users/me/loyalty | python3 -m json.tool
+```
+
+Réponse :
+```json
+{
+  "loyaltyPoints": 21,
+  "loyaltyHistory": [
+    { "date": "...", "amount": 16, "reason": "Commande OMM-2026-0001", "orderId": "..." },
+    { "date": "...", "amount": 5, "reason": "Bonus inscription newsletter" }
+  ]
+}
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 |
+| Non connecté | 401 |
+
+---
+
+## Newsletter — `/newsletter`
+
+### POST /newsletter/subscribe
+
+Inscrit une adresse email à la newsletter. Public (pas de JWT requis).
+Si l'utilisateur est connecté et n'a jamais reçu le bonus, **+5 points fidélité** sont crédités automatiquement.
+
+```bash
+# Sans compte (visiteur)
+curl -s -X POST http://localhost:3001/api/newsletter/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"visiteur@example.com"}' | python3 -m json.tool
+
+# Avec compte connecté (bonus +5 pts)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/newsletter/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alice@ommatcha.fr"}' | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès (nouvelle inscription) | 201 |
+| Réactivation après désabonnement | 201 |
+| Email déjà actif | 400 |
+
+---
+
+### DELETE /newsletter/unsubscribe
+
+Désabonne une adresse. Public — droit RGPD d'opposition. Passe `active: false` dans la base.
+
+```bash
+curl -s -o /dev/null -w "%{http_code}" \
+  -X DELETE http://localhost:3001/api/newsletter/unsubscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alice@ommatcha.fr"}'
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 204 |
+| Email introuvable ou déjà désabonné | 404 |
+
+---
+
 ## Séquence de test complète
 
 ```bash
@@ -442,7 +517,22 @@ curl -s -b /tmp/ommatcha_cookie.txt \
 # 9. Voir ses commandes
 curl -s -b /tmp/ommatcha_cookie.txt http://localhost:3001/api/users/me/orders | python3 -m json.tool
 
-# 10. Supprimer son compte
+# 10. S'inscrire à la newsletter (connecté → +5 pts)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/newsletter/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@ommatcha.fr"}' | python3 -m json.tool
+
+# 11. Vérifier les points fidélité
+curl -s -b /tmp/ommatcha_cookie.txt http://localhost:3001/api/users/me/loyalty | python3 -m json.tool
+
+# 12. Se désabonner de la newsletter
+curl -s -o /dev/null -w "%{http_code}" \
+  -X DELETE http://localhost:3001/api/newsletter/unsubscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@ommatcha.fr"}'
+
+# 13. Supprimer son compte
 curl -s -o /dev/null -w "%{http_code}" \
   -b /tmp/ommatcha_cookie.txt -X DELETE http://localhost:3001/api/users/me
 ```

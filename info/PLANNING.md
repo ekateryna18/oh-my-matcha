@@ -138,19 +138,19 @@ NODE_ENV=development
 > **Goal**: Complete API — catalogue, cart, orders, loyalty, newsletter
 
 ### Catalogue & Cart
-- [ ] `GET /products` — list available products
-- [ ] `GET /products/:id` — product detail
-- [ ] `cart_id` cookie — persistent server-side cart
-- [ ] `POST /cart` — add a product
-- [ ] `GET /cart` — retrieve current cart
-- [ ] `DELETE /cart/:itemId` — remove an item
+- [x] `GET /products` — list available products
+- [x] `GET /products/:id` — product detail
+- [x] `cart_id` cookie — persistent server-side cart
+- [x] `POST /cart` — add a product
+- [x] `GET /cart` — retrieve current cart
+- [x] `DELETE /cart/:itemId` — remove an item
 
 ### Orders & Time slots
-- [ ] `Order` schema — userId, items, total, slot, status, billingAddress
-- [ ] `GET /slots` — available pickup slots in 15-minute intervals
-- [ ] `POST /orders` — create an order (status `pending`)
-- [ ] `PATCH /orders/:id/confirm` — confirm order (simulates payment validation)
-- [ ] `GET /users/me/orders` — order history
+- [x] `Order` schema — userId, items, total, slot, status, billingAddress
+- [x] `GET /slots` — available pickup slots in 15-minute intervals
+- [x] `POST /orders` — create an order (status `pending`)
+- [x] `PATCH /orders/:id/confirm` — confirm order (simulates payment validation)
+- [x] `GET /users/me/orders` — order history
 
 ### Loyalty & Newsletter
 - [ ] Loyalty logic: 1€ spent = 1 point, 50 points = 5€ credit

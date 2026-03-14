@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CartModule } from './cart/cart.module';
 import { SlotsModule } from './slots/slots.module';
 import { OrdersModule } from './orders/orders.module';
+import { NewsletterModule } from './newsletter/newsletter.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { OrdersModule } from './orders/orders.module';
     CartModule,
     SlotsModule,
     OrdersModule,
+    NewsletterModule,
   ],
   controllers: [HealthController],
 })

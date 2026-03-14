@@ -50,6 +50,16 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('me/loyalty')
+  getLoyalty(@Req() req: Request) {
+    const user = req.user as UserDocument;
+    return {
+      loyaltyPoints: user.loyaltyPoints,
+      loyaltyHistory: user.loyaltyHistory,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Delete('me')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteMe(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
