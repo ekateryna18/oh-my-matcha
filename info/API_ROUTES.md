@@ -379,6 +379,49 @@ curl -s -b /tmp/ommatcha_cookie.txt \
 
 ---
 
+### Flux paiement — ce que le frontend doit faire
+
+> Ces deux appels sont enchaînés automatiquement par le frontend au clic sur "Payer".
+> L'utilisateur ne voit jamais le statut `pending` — pour lui c'est une seule action.
+
+```
+Page Payment.tsx — clic sur "Payer"
+│
+├── 1. POST /orders          → reçoit { _id, status: "pending", ... }
+│       │
+│       └── si erreur → afficher message d'erreur, ne pas continuer
+│
+├── 2. PATCH /orders/:id/confirm   (id = _id reçu à l'étape 1)
+│       │
+│       └── si erreur → afficher message d'erreur
+│
+└── 3. Succès → redirect vers /order/success
+```
+
+**En React (pseudo-code) :**
+```typescript
+async function handlePayment() {
+  // Étape 1 — créer la commande
+  const order = await fetch('/api/orders', {
+    method: 'POST',
+    body: JSON.stringify({ pickupSlot, applyCredit }),
+  });
+
+  // Étape 2 — confirmer (simule la validation du paiement)
+  await fetch(`/api/orders/${order._id}/confirm`, {
+    method: 'PATCH',
+  });
+
+  // Étape 3 — redirection
+  navigate('/order/success');
+}
+```
+
+**Pourquoi deux appels ?**
+Dans un vrai système avec Stripe, `POST /orders` crée la commande et Stripe envoie un webhook pour appeler le confirm. Ici le paiement est simulé, donc c'est le frontend lui-même qui appelle les deux routes à la suite.
+
+---
+
 ### GET /users/me/orders
 
 Retourne toutes les commandes de l'utilisateur connecté, triées par date décroissante.
