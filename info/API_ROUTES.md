@@ -191,6 +191,328 @@ curl -s -o /dev/null -w "%{http_code}" \
 
 ---
 
+## Products — `/products`
+
+Routes publiques — aucun cookie requis.
+
+### GET /products
+
+Retourne tous les produits disponibles. Filtre optionnel par catégorie.
+
+```bash
+# Tous les produits
+curl -s http://localhost:3001/api/products | python3 -m json.tool
+
+# Par catégorie (matcha | bubble_tea | tea)
+curl -s "http://localhost:3001/api/products?category=matcha" | python3 -m json.tool
+curl -s "http://localhost:3001/api/products?category=bubble_tea" | python3 -m json.tool
+curl -s "http://localhost:3001/api/products?category=tea" | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + tableau de produits |
+
+---
+
+### GET /products/:id
+
+Retourne le détail d'un produit avec toutes ses options de customisation.
+
+```bash
+curl -s http://localhost:3001/api/products/<id> | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + produit complet |
+| ID invalide ou produit introuvable | 404 |
+
+---
+
+## Cart — `/cart`
+
+> Toutes les routes requièrent le cookie `auth_token`.
+> Le cookie `cart_id` (httpOnly, session) est posé automatiquement à la première requête.
+
+### GET /cart
+
+Retourne le panier de l'utilisateur connecté. Le crée s'il n'existe pas encore.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt -c /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/cart | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + panier avec `items[]` et `totalAmount` |
+| Non connecté | 401 |
+
+---
+
+### POST /cart
+
+Ajoute un article au panier. Le prix est snapshoté au moment de l'ajout.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt -c /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/cart \
+  -H "Content-Type: application/json" \
+  -d '{
+    "productId": "<id>",
+    "quantity": 2,
+    "customization": {
+      "flavour": "vanille",
+      "temperature": "chaud",
+      "sweetnessLevel": "normal",
+      "syrup": "sans sirop",
+      "milkType": "lait d'\''avoine"
+    }
+  }' | python3 -m json.tool
+```
+
+Champs : `productId` (requis), `quantity` (optionnel, défaut 1), `customization` (optionnel).
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + panier mis à jour avec `totalAmount` |
+| Produit introuvable | 404 |
+| Non connecté | 401 |
+
+---
+
+### DELETE /cart/:itemId
+
+Supprime un article du panier par son `_id` (présent dans `items[]`).
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X DELETE http://localhost:3001/api/cart/<itemId> | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + panier mis à jour |
+| Article introuvable | 404 |
+| Non connecté | 401 |
+
+---
+
+## Créneaux — `/slots`
+
+### GET /slots
+
+Retourne les créneaux disponibles pour aujourd'hui (currentOrders < maxOrders).
+Créneaux générés automatiquement au premier appel : 11:00–18:45, intervalles de 15 min (32 créneaux), max 5 commandes chacun.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/slots | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + tableau de créneaux |
+| Non connecté | 401 |
+
+---
+
+## Commandes — `/orders`
+
+### POST /orders
+
+Crée une commande en statut `pending` à partir du panier actuel.
+
+Prérequis :
+- Être connecté (JWT cookie)
+- Avoir une adresse de facturation renseignée (`billingAddress`)
+- Panier non vide
+- Créneau valide (parmi ceux retournés par GET /slots)
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{"pickupSlot":"14:00","applyCredit":false}' | python3 -m json.tool
+```
+
+Pour utiliser le crédit fidélité (nécessite ≥ 50 points) :
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{"pickupSlot":"14:00","applyCredit":true}' | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 201 + commande créée (status: pending) |
+| Panier vide | 400 |
+| Adresse de facturation manquante | 400 |
+| Créneau non disponible | 400 |
+| Pas assez de points fidélité | 400 |
+| Non connecté | 401 |
+
+---
+
+### PATCH /orders/:id/confirm
+
+Confirme une commande `pending`. Déclenche :
+- Passage au statut `confirmed`
+- Incrémentation du créneau (currentOrders + 1)
+- Crédit des points fidélité (1€ = 1 point)
+- Déduction de 50 points si crédit appliqué
+- Vidage du panier
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X PATCH http://localhost:3001/api/orders/<orderId>/confirm | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + commande confirmée |
+| Commande introuvable ou pas la sienne | 404 |
+| Commande déjà confirmée/autre statut | 400 |
+| Non connecté | 401 |
+
+---
+
+### Flux paiement — ce que le frontend doit faire
+
+> Ces deux appels sont enchaînés automatiquement par le frontend au clic sur "Payer".
+> L'utilisateur ne voit jamais le statut `pending` — pour lui c'est une seule action.
+
+```
+Page Payment.tsx — clic sur "Payer"
+│
+├── 1. POST /orders          → reçoit { _id, status: "pending", ... }
+│       │
+│       └── si erreur → afficher message d'erreur, ne pas continuer
+│
+├── 2. PATCH /orders/:id/confirm   (id = _id reçu à l'étape 1)
+│       │
+│       └── si erreur → afficher message d'erreur
+│
+└── 3. Succès → redirect vers /order/success
+```
+
+**En React (pseudo-code) :**
+```typescript
+async function handlePayment() {
+  // Étape 1 — créer la commande
+  const order = await fetch('/api/orders', {
+    method: 'POST',
+    body: JSON.stringify({ pickupSlot, applyCredit }),
+  });
+
+  // Étape 2 — confirmer (simule la validation du paiement)
+  await fetch(`/api/orders/${order._id}/confirm`, {
+    method: 'PATCH',
+  });
+
+  // Étape 3 — redirection
+  navigate('/order/success');
+}
+```
+
+**Pourquoi deux appels ?**
+Dans un vrai système avec Stripe, `POST /orders` crée la commande et Stripe envoie un webhook pour appeler le confirm. Ici le paiement est simulé, donc c'est le frontend lui-même qui appelle les deux routes à la suite.
+
+---
+
+### GET /users/me/orders
+
+Retourne toutes les commandes de l'utilisateur connecté, triées par date décroissante.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/users/me/orders | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 + tableau de commandes |
+| Non connecté | 401 |
+
+---
+
+## Fidélité — `/users/me/loyalty`
+
+### GET /users/me/loyalty
+
+Retourne le solde de points fidélité et l'historique des gains de l'utilisateur connecté.
+
+```bash
+curl -s -b /tmp/ommatcha_cookie.txt \
+  http://localhost:3001/api/users/me/loyalty | python3 -m json.tool
+```
+
+Réponse :
+```json
+{
+  "loyaltyPoints": 21,
+  "loyaltyHistory": [
+    { "date": "...", "amount": 16, "reason": "Commande OMM-2026-0001", "orderId": "..." },
+    { "date": "...", "amount": 5, "reason": "Bonus inscription newsletter" }
+  ]
+}
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 200 |
+| Non connecté | 401 |
+
+---
+
+## Newsletter — `/newsletter`
+
+### POST /newsletter/subscribe
+
+Inscrit une adresse email à la newsletter. Public (pas de JWT requis).
+Si l'utilisateur est connecté et n'a jamais reçu le bonus, **+5 points fidélité** sont crédités automatiquement.
+
+```bash
+# Sans compte (visiteur)
+curl -s -X POST http://localhost:3001/api/newsletter/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"visiteur@example.com"}' | python3 -m json.tool
+
+# Avec compte connecté (bonus +5 pts)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/newsletter/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alice@ommatcha.fr"}' | python3 -m json.tool
+```
+
+| Cas | Code |
+|---|---|
+| Succès (nouvelle inscription) | 201 |
+| Réactivation après désabonnement | 201 |
+| Email déjà actif | 400 |
+
+---
+
+### DELETE /newsletter/unsubscribe
+
+Désabonne une adresse. Public — droit RGPD d'opposition. Passe `active: false` dans la base.
+
+```bash
+curl -s -o /dev/null -w "%{http_code}" \
+  -X DELETE http://localhost:3001/api/newsletter/unsubscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alice@ommatcha.fr"}'
+```
+
+| Cas | Code |
+|---|---|
+| Succès | 204 |
+| Email introuvable ou déjà désabonné | 404 |
+
+---
+
 ## Séquence de test complète
 
 ```bash
@@ -222,7 +544,38 @@ curl -s -b /tmp/ommatcha_cookie.txt -X PATCH http://localhost:3001/api/users/me/
   -d '{"marketing":true,"functional":true,"version":"1.1"}' \
   | python3 -m json.tool
 
-# 6. Supprimer son compte
+# 6. Voir les créneaux disponibles
+curl -s -b /tmp/ommatcha_cookie.txt http://localhost:3001/api/slots | python3 -m json.tool
+
+# 7. Créer une commande (adapter le créneau selon ce que retourne /slots)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{"pickupSlot":"14:00","applyCredit":false}' | python3 -m json.tool
+
+# 8. Confirmer la commande (remplacer <orderId> par l'_id retourné)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X PATCH http://localhost:3001/api/orders/<orderId>/confirm | python3 -m json.tool
+
+# 9. Voir ses commandes
+curl -s -b /tmp/ommatcha_cookie.txt http://localhost:3001/api/users/me/orders | python3 -m json.tool
+
+# 10. S'inscrire à la newsletter (connecté → +5 pts)
+curl -s -b /tmp/ommatcha_cookie.txt \
+  -X POST http://localhost:3001/api/newsletter/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@ommatcha.fr"}' | python3 -m json.tool
+
+# 11. Vérifier les points fidélité
+curl -s -b /tmp/ommatcha_cookie.txt http://localhost:3001/api/users/me/loyalty | python3 -m json.tool
+
+# 12. Se désabonner de la newsletter
+curl -s -o /dev/null -w "%{http_code}" \
+  -X DELETE http://localhost:3001/api/newsletter/unsubscribe \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@ommatcha.fr"}'
+
+# 13. Supprimer son compte
 curl -s -o /dev/null -w "%{http_code}" \
   -b /tmp/ommatcha_cookie.txt -X DELETE http://localhost:3001/api/users/me
 ```
