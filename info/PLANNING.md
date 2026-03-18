@@ -153,11 +153,11 @@ NODE_ENV=development
 - [x] `GET /users/me/orders` — order history
 
 ### Loyalty & Newsletter
-- [ ] Loyalty logic: 1€ spent = 1 point, 50 points = 5€ credit
-- [ ] `GET /users/me/loyalty` — points + earnings history
-- [ ] `POST /newsletter/subscribe` — subscription + 5pts loyalty bonus
-- [ ] `DELETE /newsletter/unsubscribe` — unsubscribe (GDPR right)
-- [ ] Test all routes with Postman or Insomnia
+- [x] Loyalty logic: 1€ spent = 1 point, 50 points = 5€ credit
+- [x] `GET /users/me/loyalty` — points + earnings history
+- [x] `POST /newsletter/subscribe` — subscription + 5pts loyalty bonus
+- [x] `DELETE /newsletter/unsubscribe` — unsubscribe (GDPR right)
+- [x] Test all routes with Postman or Insomnia
 
 ---
 
@@ -178,27 +178,27 @@ Mockups needed for W4:
 ```
 
 ### ConsentManager TypeScript — core of the project
-- [ ] Create `src/lib/ConsentManager.ts`
-- [ ] TypeScript interfaces: `ConsentChoices` and `ConsentData`
-- [ ] `getConsents()` — read stored preferences
-- [ ] `saveConsents(choices)` — save + apply immediately
-- [ ] `shouldShowBanner()` — new visitor or version changed → show banner
-- [ ] `revokeAll()` — consent withdrawal (GDPR right)
-- [ ] Consent versioning — if cookies change, automatically re-ask
-- [ ] Typed utilities: `setCookie`, `getCookie`, `deleteCookie`
+- [x] Create `src/lib/ConsentManager.ts`
+- [x] TypeScript interfaces: `ConsentChoices` and `ConsentData`
+- [x] `getConsents()` — read stored preferences
+- [x] `saveConsents(choices)` — save + apply immediately
+- [x] `shouldShowBanner()` — new visitor or version changed → show banner
+- [x] `revokeAll()` — consent withdrawal (GDPR right)
+- [x] Consent versioning — if cookies change, automatically re-ask
+- [x] Typed utilities: `setCookie`, `getCookie`, `deleteCookie`
 
 ### Conditional script triggering
-- [ ] `newsletter_consent` active → set 14-day cookie + initialize email tool
-- [ ] `newsletter_consent` inactive → delete cookie + script not loaded
-- [ ] `pickup_slot_pref` active → allow preferred slot memorization
-- [ ] `pickup_slot_pref` inactive → delete existing preference
-- [ ] Initialize in `App.tsx` — apply existing consents on load
-- [ ] Sync with backend (`PATCH /users/me/consents`) if user is logged in
+- [x] `newsletter_consent` active → set 14-day cookie + initialize email tool
+- [x] `newsletter_consent` inactive → delete cookie + script not loaded
+- [x] `pickup_slot_pref` active → allow preferred slot memorization
+- [x] `pickup_slot_pref` inactive → delete existing preference
+- [x] Initialize in `App.tsx` — apply existing consents on load
+- [x] Sync with backend (`PATCH /users/me/consents`) if user is logged in
 
 ### Banner components
-- [ ] `CookieBanner.tsx` — 3 categories, unchecked toggles by default, Accept all / Reject all / Save buttons
-- [ ] `CookieSettings.tsx` — settings modal accessible from account and footer
-- [ ] `useConsent()` hook — access consents from any component
+- [x] `CookieBanner.tsx` — 3 categories, unchecked toggles by default, Accept all / Reject all / Save buttons
+- [x] `CookieSettings.tsx` — settings modal accessible from account and footer
+- [x] `useConsent()` hook — access consents from any component
 
 ### React structure + routing
 - [ ] React Router setup — all routes defined

@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import { initConsents } from './lib/ConsentManager';
+import { CookieBanner } from './components/CookieBanner';
+import { CookieSettings } from './components/CookieSettings';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    initConsents();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {/* Routes + pages will go here */}
+
+      {/* Always rendered — self-hides when consent is already stored */}
+      <CookieBanner />
+
+      {/* Modal — opened from footer "Gérer mes cookies" or Account page */}
+      <CookieSettings isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
+
+      {/* Temporary test button — simulates the footer "Gérer mes cookies" link */}
+      <button
+        onClick={() => setSettingsOpen(true)}
+        style={{
+          position: 'fixed', top: 16, right: 16, zIndex: 900,
+          padding: '8px 14px', borderRadius: '8px', cursor: 'pointer',
+          background: '#3d6b4f', color: '#fff', border: 'none',
+          fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600,
+        }}
+      >
+        Gérer mes cookies
+      </button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

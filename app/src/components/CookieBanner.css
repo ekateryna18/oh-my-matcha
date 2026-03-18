@@ -1,0 +1,68 @@
+/* ─── CookieBanner — fixed bottom bar ────────────────────────────────────────── */
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #fff;
+  border-top: 1px solid #e2d9cf;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+  padding: 20px 16px 24px;
+}
+
+.cookie-banner__inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cookie-banner__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.cookie-banner__desc {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.cookie-banner__categories {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cookie-banner__link {
+  margin: 12px 0 0;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.cookie-banner__link a {
+  color: #3d6b4f;
+  text-decoration: underline;
+}
+
+/* On larger screens — actions in a row */
+@media (min-width: 500px) {
+  .cookie-banner__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .cookie-banner__link {
+    text-align: left;
+  }
+}
