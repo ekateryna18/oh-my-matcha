@@ -153,11 +153,11 @@ NODE_ENV=development
 - [x] `GET /users/me/orders` — order history
 
 ### Loyalty & Newsletter
-- [ ] Loyalty logic: 1€ spent = 1 point, 50 points = 5€ credit
-- [ ] `GET /users/me/loyalty` — points + earnings history
-- [ ] `POST /newsletter/subscribe` — subscription + 5pts loyalty bonus
-- [ ] `DELETE /newsletter/unsubscribe` — unsubscribe (GDPR right)
-- [ ] Test all routes with Postman or Insomnia
+- [x] Loyalty logic: 1€ spent = 1 point, 50 points = 5€ credit
+- [x] `GET /users/me/loyalty` — points + earnings history
+- [x] `POST /newsletter/subscribe` — subscription + 5pts loyalty bonus
+- [x] `DELETE /newsletter/unsubscribe` — unsubscribe (GDPR right)
+- [x] Test all routes with Postman or Insomnia
 
 ---
 
@@ -178,27 +178,27 @@ Mockups needed for W4:
 ```
 
 ### ConsentManager TypeScript — core of the project
-- [ ] Create `src/lib/ConsentManager.ts`
-- [ ] TypeScript interfaces: `ConsentChoices` and `ConsentData`
-- [ ] `getConsents()` — read stored preferences
-- [ ] `saveConsents(choices)` — save + apply immediately
-- [ ] `shouldShowBanner()` — new visitor or version changed → show banner
-- [ ] `revokeAll()` — consent withdrawal (GDPR right)
-- [ ] Consent versioning — if cookies change, automatically re-ask
-- [ ] Typed utilities: `setCookie`, `getCookie`, `deleteCookie`
+- [x] Create `src/lib/ConsentManager.ts`
+- [x] TypeScript interfaces: `ConsentChoices` and `ConsentData`
+- [x] `getConsents()` — read stored preferences
+- [x] `saveConsents(choices)` — save + apply immediately
+- [x] `shouldShowBanner()` — new visitor or version changed → show banner
+- [x] `revokeAll()` — consent withdrawal (GDPR right)
+- [x] Consent versioning — if cookies change, automatically re-ask
+- [x] Typed utilities: `setCookie`, `getCookie`, `deleteCookie`
 
 ### Conditional script triggering
-- [ ] `newsletter_consent` active → set 14-day cookie + initialize email tool
-- [ ] `newsletter_consent` inactive → delete cookie + script not loaded
-- [ ] `pickup_slot_pref` active → allow preferred slot memorization
-- [ ] `pickup_slot_pref` inactive → delete existing preference
-- [ ] Initialize in `App.tsx` — apply existing consents on load
-- [ ] Sync with backend (`PATCH /users/me/consents`) if user is logged in
+- [x] `newsletter_consent` active → set 14-day cookie + initialize email tool
+- [x] `newsletter_consent` inactive → delete cookie + script not loaded
+- [x] `pickup_slot_pref` active → allow preferred slot memorization
+- [x] `pickup_slot_pref` inactive → delete existing preference
+- [x] Initialize in `App.tsx` — apply existing consents on load
+- [x] Sync with backend (`PATCH /users/me/consents`) if user is logged in
 
 ### Banner components
-- [ ] `CookieBanner.tsx` — 3 categories, unchecked toggles by default, Accept all / Reject all / Save buttons
-- [ ] `CookieSettings.tsx` — settings modal accessible from account and footer
-- [ ] `useConsent()` hook — access consents from any component
+- [x] `CookieBanner.tsx` — 3 categories, unchecked toggles by default, Accept all / Reject all / Save buttons
+- [x] `CookieSettings.tsx` — settings modal accessible from account and footer
+- [x] `useConsent()` hook — access consents from any component
 
 ### React structure + routing
 - [ ] React Router setup — all routes defined
@@ -216,24 +216,24 @@ Mockups needed for W4:
 > ✅ **Figma mockups required this weekend**
 
 ### Showcase site
-- [ ] `Home` page — tea shop presentation, matcha values, call to action (mobile first)
-- [ ] Responsive header + mobile hamburger menu
-- [ ] `Menu` page — product grid from `GET /products`, category filters
-- [ ] `ProductCard` component — name, price, options, allergens, add to cart button
-- [ ] Complete footer — legal links + "Manage cookies"
+- [X] `Home` page — tea shop presentation, matcha values, call to action (mobile first)
+- [x] Responsive header + mobile hamburger menu
+- [x] `Menu` page — product grid from `GET /products`, category filters
+- [x] `ProductCard` component — name, price, options, allergens, add to cart button
+- [x] Complete footer — legal links + "Manage cookies"
 
 ### Authentication
-- [ ] `Login` page — login form
-- [ ] `Register` page — registration form, newsletter checkbox **unchecked by default** (CNIL)
-- [ ] Error handling (email already used, wrong password)
-- [ ] Protected routes — redirect to login if not authenticated
+- [x] `Login` page — login form
+- [x] `Register` page — registration form, newsletter checkbox **unchecked by default** (CNIL)
+- [x] Error handling (email already used, wrong password)
+- [x] Protected routes — redirect to login if not authenticated
 
 ### User account + loyalty
-- [ ] `Account` page — view and edit personal information
-- [ ] Cookie consent management section inside account
-- [ ] `LoyaltyDashboard` page — current points, progress bar to 50pts, earnings history
-- [ ] Order history
-- [ ] Account deletion with confirmation
+- [x] `Account` page — view and edit personal information
+- [x] Cookie consent management section inside account
+- [x] `LoyaltyDashboard` page — current points, progress bar to 50pts, earnings history
+- [x] Order history
+- [x] Account deletion with confirmation
 
 ---
 

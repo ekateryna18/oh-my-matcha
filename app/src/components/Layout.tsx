@@ -1,0 +1,20 @@
+import { Outlet } from 'react-router-dom';
+import { Header } from './Header';
+import { Footer } from './Footer';
+import './Layout.css';
+
+/**
+ * Shared layout wrapping all pages.
+ * React Router renders the matched child page into <Outlet />.
+ */
+export function Layout() {
+  return (
+    <div className="layout">
+      <Header />
+      <main className="layout__main">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+}
