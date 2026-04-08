@@ -90,12 +90,13 @@
 }
 
 .menu-page__cat-img-wrap {
-  flex: 0 0 320px;
+  flex: 0 0 420px;
   display: block;
+  margin-left: auto;
 }
 
 .menu-page__cat-img {
-  width: 320px;
+  width: 420px;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 6px;
