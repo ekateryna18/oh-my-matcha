@@ -217,23 +217,23 @@ Mockups needed for W4:
 
 ### Showcase site
 - [X] `Home` page — tea shop presentation, matcha values, call to action (mobile first)
-- [ ] Responsive header + mobile hamburger menu
-- [ ] `Menu` page — product grid from `GET /products`, category filters
-- [ ] `ProductCard` component — name, price, options, allergens, add to cart button
-- [ ] Complete footer — legal links + "Manage cookies"
+- [x] Responsive header + mobile hamburger menu
+- [x] `Menu` page — product grid from `GET /products`, category filters
+- [x] `ProductCard` component — name, price, options, allergens, add to cart button
+- [x] Complete footer — legal links + "Manage cookies"
 
 ### Authentication
-- [ ] `Login` page — login form
-- [ ] `Register` page — registration form, newsletter checkbox **unchecked by default** (CNIL)
-- [ ] Error handling (email already used, wrong password)
-- [ ] Protected routes — redirect to login if not authenticated
+- [x] `Login` page — login form
+- [x] `Register` page — registration form, newsletter checkbox **unchecked by default** (CNIL)
+- [x] Error handling (email already used, wrong password)
+- [x] Protected routes — redirect to login if not authenticated
 
 ### User account + loyalty
-- [ ] `Account` page — view and edit personal information
-- [ ] Cookie consent management section inside account
-- [ ] `LoyaltyDashboard` page — current points, progress bar to 50pts, earnings history
-- [ ] Order history
-- [ ] Account deletion with confirmation
+- [x] `Account` page — view and edit personal information
+- [x] Cookie consent management section inside account
+- [x] `LoyaltyDashboard` page — current points, progress bar to 50pts, earnings history
+- [x] Order history
+- [x] Account deletion with confirmation
 
 ---
 
