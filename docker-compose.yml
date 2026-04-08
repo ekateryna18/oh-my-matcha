@@ -34,7 +34,7 @@ services:
       - ./app:/app
       - /app/node_modules
     environment:
-      VITE_API_URL: http://localhost:3001
+      VITE_API_URL: http://localhost:3001/api
     networks:
       - ommatcha_network
     restart: unless-stopped

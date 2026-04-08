@@ -216,7 +216,7 @@ Mockups needed for W4:
 > ✅ **Figma mockups required this weekend**
 
 ### Showcase site
-- [ ] `Home` page — tea shop presentation, matcha values, call to action (mobile first)
+- [X] `Home` page — tea shop presentation, matcha values, call to action (mobile first)
 - [ ] Responsive header + mobile hamburger menu
 - [ ] `Menu` page — product grid from `GET /products`, category filters
 - [ ] `ProductCard` component — name, price, options, allergens, add to cart button

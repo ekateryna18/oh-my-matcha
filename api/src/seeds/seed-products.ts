@@ -10,7 +10,7 @@ const ProductSchema = new Schema(
   {
     name: String,
     description: String,
-    category: { type: String, enum: ['matcha', 'bubble_tea', 'tea'] },
+    category: { type: String, enum: ['matcha', 'bubble_tea', 'mochi', 'tea'] },
     price: Number,
     image: String,
     customizationOptions: {
@@ -32,25 +32,25 @@ const Product = mongoose.model('Product', ProductSchema);
 // ─── Shared option lists ──────────────────────────────────────────────────────
 
 const ALL_MILK_TYPES = ["lait de vache", "lait d'avoine", "lait d'amande", "lait de soja"];
-const ALL_SWEETNESS = ['sans sucre', 'peu sucré', 'normal', 'très sucré'];
-const ALL_TEMPERATURES = ['chaud', 'froid / glacé'];
-const ALL_SYRUPS = ['sans sirop', 'sirop de vanille', 'sirop de caramel', 'sirop de lavande'];
+const ALL_SWEETNESS  = ['sans sucre', 'peu sucré', 'normal', 'très sucré'];
+const ALL_TEMPS      = ['chaud', 'froid / glacé'];
+const ALL_SYRUPS     = ['sans sirop', 'sirop de vanille', 'sirop de caramel', 'sirop de lavande'];
 
 // ─── Seed data ────────────────────────────────────────────────────────────────
 
 const products = [
   // ── Matcha ─────────────────────────────────────────────────────────────────
   {
-    name: 'Matcha Latte',
-    description:
-      'Notre latte signature à base de matcha de qualité cérémoniale, onctueux et parfumé.',
+    name: 'Matcha',
+    description: 'Notre matcha de cérémonie sourcé directement à Uji, Japon. Pur, onctueux et délicat.',
     category: 'matcha',
-    price: 5.5,
+    price: 5.50,
+    image: '/images/products/matcha.jpg',
     customizationOptions: {
       flavours: ['original', 'vanille', 'caramel'],
       syrups: ALL_SYRUPS,
       sweetnessLevel: ALL_SWEETNESS,
-      temperature: ALL_TEMPERATURES,
+      temperature: ALL_TEMPS,
       milkType: ALL_MILK_TYPES,
     },
     allergens: ['lait'],
@@ -58,33 +58,33 @@ const products = [
     available: true,
   },
   {
-    name: 'Matcha Glacé',
-    description:
-      'Un matcha rafraîchissant servi sur glace, parfait pour les journées chaudes.',
+    name: 'Matcha Fraise',
+    description: 'Le mariage parfait du matcha cérémonial et de la fraise fraîche. Doux, fruité et irrésistible.',
     category: 'matcha',
-    price: 5.0,
+    price: 6.00,
+    image: '/images/products/matcha-fraise.jpg',
     customizationOptions: {
       flavours: ['original', 'fruits rouges'],
-      syrups: ['sans sirop', 'sirop de vanille', 'sirop de lavande'],
+      syrups: ['sans sirop', 'sirop de lavande'],
       sweetnessLevel: ALL_SWEETNESS,
-      temperature: ['froid / glacé'],
+      temperature: ALL_TEMPS,
       milkType: ALL_MILK_TYPES,
     },
-    allergens: [],
-    hasMilk: false,
+    allergens: ['lait'],
+    hasMilk: true,
     available: true,
   },
   {
-    name: 'Hojicha Latte',
-    description:
-      'Thé vert japonais torréfié pour un goût caramélisé et doux, sans amertume.',
+    name: 'Matcha Vanille',
+    description: 'La douceur de la vanille de Madagascar rencontre l\'intensité du matcha. Un équilibre parfait.',
     category: 'matcha',
-    price: 5.5,
+    price: 6.00,
+    image: '/images/products/matcha-vanille.jpg',
     customizationOptions: {
-      flavours: ['original', 'caramel', 'vanille'],
-      syrups: ['sans sirop', 'sirop de vanille', 'sirop de caramel'],
+      flavours: ['original', 'vanille'],
+      syrups: ['sans sirop', 'sirop de vanille'],
       sweetnessLevel: ALL_SWEETNESS,
-      temperature: ALL_TEMPERATURES,
+      temperature: ALL_TEMPS,
       milkType: ALL_MILK_TYPES,
     },
     allergens: ['lait'],
@@ -94,45 +94,28 @@ const products = [
 
   // ── Bubble Tea ─────────────────────────────────────────────────────────────
   {
-    name: 'Matcha Bubble Tea',
-    description:
-      'Notre matcha signature combiné aux billes de tapioca pour une expérience unique.',
+    name: 'Bubble Tea Pistache',
+    description: 'Un bubble tea crémeux à la pistache avec des billes de tapioca fondantes cuisinées chaque matin.',
     category: 'bubble_tea',
-    price: 6.5,
+    price: 6.50,
+    image: '/images/products/bubble-tea-pistache.jpg',
     customizationOptions: {
       flavours: ['original', 'vanille'],
-      syrups: ['sans sirop', 'sirop de vanille', 'sirop de caramel'],
+      syrups: ['sans sirop', 'sirop de vanille'],
       sweetnessLevel: ALL_SWEETNESS,
-      temperature: ALL_TEMPERATURES,
+      temperature: ALL_TEMPS,
       milkType: ALL_MILK_TYPES,
     },
-    allergens: ['lait', 'gluten'],
+    allergens: ['lait', 'fruits à coque'],
     hasMilk: true,
     available: true,
   },
   {
-    name: 'Taro Bubble Tea',
-    description:
-      'Une boisson crémeuse et légèrement sucrée à base de taro, avec des billes de tapioca fondantes.',
+    name: 'Bubble Tea Fraise',
+    description: 'Des perles de tapioca fraîches noyées dans une base fraise acidulée. Frais et gourmand.',
     category: 'bubble_tea',
-    price: 6.5,
-    customizationOptions: {
-      flavours: ['original', 'vanille', 'caramel'],
-      syrups: ALL_SYRUPS,
-      sweetnessLevel: ALL_SWEETNESS,
-      temperature: ALL_TEMPERATURES,
-      milkType: ALL_MILK_TYPES,
-    },
-    allergens: ['lait', 'gluten'],
-    hasMilk: true,
-    available: true,
-  },
-  {
-    name: 'Bubble Tea aux Fruits Rouges',
-    description:
-      'Une boisson fruitée et acidulée aux fruits rouges, avec des billes de tapioca gélifiées.',
-    category: 'bubble_tea',
-    price: 6.0,
+    price: 6.50,
+    image: '/images/products/bubble-tea-fraise.jpg',
     customizationOptions: {
       flavours: ['original', 'fruits rouges'],
       syrups: ['sans sirop', 'sirop de lavande'],
@@ -144,56 +127,73 @@ const products = [
     hasMilk: false,
     available: true,
   },
-
-  // ── Thés ───────────────────────────────────────────────────────────────────
   {
-    name: 'Thé Vert Sencha',
-    description:
-      'Un thé vert japonais délicat aux notes herbacées et fraîches, cultivé à Uji.',
-    category: 'tea',
-    price: 3.5,
+    name: 'Bubble Tea Vanille',
+    description: 'Un bubble tea velouté à la vanille naturelle, billes de tapioca à personnaliser sans limite.',
+    category: 'bubble_tea',
+    price: 6.50,
+    image: '/images/products/bubble-tea-vanille.jpg',
     customizationOptions: {
-      flavours: ['original'],
-      syrups: ['sans sirop', 'sirop de vanille'],
-      sweetnessLevel: ['sans sucre', 'peu sucré', 'normal'],
-      temperature: ALL_TEMPERATURES,
+      flavours: ['original', 'vanille', 'caramel'],
+      syrups: ALL_SYRUPS,
+      sweetnessLevel: ALL_SWEETNESS,
+      temperature: ALL_TEMPS,
       milkType: ALL_MILK_TYPES,
     },
-    allergens: [],
-    hasMilk: false,
+    allergens: ['lait', 'gluten'],
+    hasMilk: true,
     available: true,
   },
+
+  // ── Mochi ──────────────────────────────────────────────────────────────────
   {
-    name: 'Thé Noir Earl Grey',
-    description:
-      'Un thé noir anglais classique parfumé à la bergamote, intense et aromatique.',
-    category: 'tea',
-    price: 3.5,
+    name: 'Mochi Matcha',
+    description: 'Mochis artisanaux à la pâte de matcha, enveloppés dans une pâte de riz douce et moelleuse.',
+    category: 'mochi',
+    price: 4.50,
+    image: '/images/products/mochi-matcha.jpg',
     customizationOptions: {
       flavours: ['original', 'vanille'],
-      syrups: ['sans sirop', 'sirop de vanille', 'sirop de lavande'],
-      sweetnessLevel: ALL_SWEETNESS,
-      temperature: ALL_TEMPERATURES,
+      syrups: ['sans sirop'],
+      sweetnessLevel: ['normal', 'peu sucré'],
+      temperature: ['froid / glacé'],
       milkType: ALL_MILK_TYPES,
     },
-    allergens: [],
+    allergens: ['gluten'],
     hasMilk: false,
     available: true,
   },
   {
-    name: 'Thé aux Fruits',
-    description:
-      'Un mélange fruité et parfumé aux notes de pêche, hibiscus et fruits tropicaux, chaud ou glacé.',
-    category: 'tea',
-    price: 4.0,
+    name: 'Mochi Fraise',
+    description: 'Mochis fourrés à la crème de fraise, une douceur japonaise aux couleurs de la saison.',
+    category: 'mochi',
+    price: 4.50,
+    image: '/images/products/mochi-fraise.jpg',
     customizationOptions: {
       flavours: ['original', 'fruits rouges'],
-      syrups: ['sans sirop', 'sirop de lavande'],
-      sweetnessLevel: ALL_SWEETNESS,
-      temperature: ALL_TEMPERATURES,
+      syrups: ['sans sirop'],
+      sweetnessLevel: ['normal', 'peu sucré'],
+      temperature: ['froid / glacé'],
       milkType: ALL_MILK_TYPES,
     },
-    allergens: [],
+    allergens: ['gluten'],
+    hasMilk: false,
+    available: true,
+  },
+  {
+    name: 'Mochi Vanille',
+    description: 'Mochis à la vanille de Madagascar, fondants et délicatement parfumés. Le goût du Japon en une bouchée.',
+    category: 'mochi',
+    price: 4.50,
+    image: '/images/products/mochi-vanille.jpg',
+    customizationOptions: {
+      flavours: ['original', 'vanille'],
+      syrups: ['sans sirop'],
+      sweetnessLevel: ['normal', 'peu sucré'],
+      temperature: ['froid / glacé'],
+      milkType: ALL_MILK_TYPES,
+    },
+    allergens: ['gluten'],
     hasMilk: false,
     available: true,
   },

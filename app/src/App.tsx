@@ -8,6 +8,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 import Home from './pages/Home';
 import Menu from './pages/Menu';
+import ProductDetail from './pages/ProductDetail';
 import Customization from './pages/Customization';
 import Cart from './pages/Cart';
 import Payment from './pages/Payment';
@@ -38,6 +39,7 @@ function App() {
             {/* Public */}
             <Route index element={<Home />} />
             <Route path="menu" element={<Menu />} />
+            <Route path="menu/:id" element={<ProductDetail />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
 

@@ -1,0 +1,117 @@
+.product-detail {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+/* ── Back link ── */
+.product-detail__back {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #3d6b4f;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+}
+
+.product-detail__back:hover {
+  text-decoration: underline;
+}
+
+/* ── Image ── */
+.product-detail__img-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.75rem;
+}
+
+.product-detail__img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.product-detail__img-ph {
+  background-color: #c8ddd0;
+}
+
+/* ── Info ── */
+.product-detail__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.product-detail__category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #3d6b4f;
+}
+
+.product-detail__name {
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.product-detail__desc {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.product-detail__allergens {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0;
+}
+
+/* ── Footer ── */
+.product-detail__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #ebebeb;
+}
+
+.product-detail__price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.product-detail__btn {
+  padding: 12px 32px;
+  background: #3d6b4f;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.product-detail__btn:hover {
+  background: #2d5a3f;
+}
+
+/* ── Status (loading / error) ── */
+.product-detail__status {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}

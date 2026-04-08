@@ -9,6 +9,7 @@ export enum ProductCategory {
   MATCHA = 'matcha',
   BUBBLE_TEA = 'bubble_tea',
   TEA = 'tea',
+  MOCHI = 'mochi',
 }
 
 // ─── Nested schema ────────────────────────────────────────────────────────────
@@ -42,7 +43,7 @@ export class Product {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true, enum: ProductCategory })
+  @Prop({ required: true, enum: Object.values(ProductCategory) })
   category: ProductCategory;
 
   @Prop({ required: true })

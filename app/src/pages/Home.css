@@ -1,0 +1,194 @@
+/* ================================================================
+   Home.css — Mobile-first
+   home__ph  = green placeholder (replace with img, food photos)
+   home__ph--dark = dark placeholder (replace with img, bottom banner)
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+/* ── Placeholder boxes (swap with <img> tags) ── */
+.home__ph {
+  background-color: #c8ddd0;
+}
+
+.home__ph--dark {
+  background-color: #222;
+}
+
+/* ── Hero ── */
+.home__hero {
+  padding: 2rem 1rem 0;
+  text-align: center;
+}
+
+.home__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 1.5rem;
+}
+
+.home__hero-img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  display: block;
+  object-fit: cover;
+  max-height: 340px;
+}
+
+/* ── Tagline ── */
+.home__tagline {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 2rem 1.5rem;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+/* ── Gallery strip ── */
+.home__gallery {
+  display: flex;
+  gap: 4px;
+  padding: 0 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.home__gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.home__gallery-item {
+  flex: 1 0 0;
+  aspect-ratio: 1;
+  min-width: 56px;
+  border-radius: 4px;
+  display: block;
+  object-fit: cover;
+}
+
+.home__gallery-item:first-child,
+.home__gallery-item:last-child {
+  flex: 0.5 0 0;
+  min-width: 28px;
+}
+
+/* ── Section title ── */
+.home__art-title {
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 2.5rem 1.5rem 0;
+  margin: 1.5rem 0 0;
+  border-top: 1px solid #e0e0e0;
+  color: #1a1a1a;
+  letter-spacing: 0.01em;
+}
+
+/* ── Features ── */
+.home__features {
+  padding: 0 1.5rem 1rem;
+}
+
+.home__feature {
+  padding: 2.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.home__divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  width: 100%;
+  margin: 0;
+}
+
+.home__feature-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: cover;
+}
+
+.home__feature-text {
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.5;
+  max-width: 360px;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ── Bottom banner ── */
+.home__bottom {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.home__bottom-img {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  display: block;
+  object-fit: cover;
+  max-height: 280px;
+}
+
+.home__bottom-tagline {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 1.5rem 1rem 2rem;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+/* ── Desktop tweaks ── */
+@media (min-width: 640px) {
+  .home__hero-img {
+    max-height: 440px;
+  }
+
+  .home__feature-img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .home__feature-text {
+    max-width: 440px;
+  }
+}
+
+@media (min-width: 900px) {
+  .home__hero {
+    padding: 3rem 2rem 0;
+  }
+
+  .home__gallery {
+    padding: 0 2rem;
+  }
+
+  .home__art-title {
+    padding: 3rem 2rem 0;
+  }
+
+  .home__features {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+  }
+
+  .home__hero-img {
+    max-height: 520px;
+  }
+
+  .home__bottom-img {
+    max-height: 380px;
+  }
+}
