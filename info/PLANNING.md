@@ -242,25 +242,25 @@ Mockups needed for W4:
 > **Goal**: Complete order tunnel + final delivery to teacher
 
 ### Order flow
-- [ ] `Cart` page — cart summary, edit quantities, remove items
-- [ ] Pickup slot selection (15-min slots from `GET /slots`)
-- [ ] If `pickup_slot_pref` active → pre-fill with memorized slot
-- [ ] Order summary + billing address input
+- [x] `Cart` page — cart summary, edit quantities, remove items
+- [x] Pickup slot selection (15-min slots from `GET /slots`)
+- [x] If `pickup_slot_pref` active → pre-fill with memorized slot
+- [x] Order summary + billing address input
 
 ### Simulated payment form (Stripe-style)
-- [ ] `Payment` page — fields: card number, expiry date, CVV, cardholder name
-- [ ] Client-side field validation (card format, date, CVV)
-- [ ] "Pay X€" button → calls `POST /orders` + `PATCH /orders/:id/confirm`
-- [ ] `OrderSuccess` page — confirmation, credited points, slot reminder
-- [ ] `OrderCancel` page — back to cart
-- [ ] ⚠️ No real banking data transmitted — simulation only
+- [x] `Payment` page — fields: card number, expiry date, CVV, cardholder name
+- [x] Client-side field validation (card format, date, CVV)
+- [x] "Pay X€" button → calls `POST /orders` + `PATCH /orders/:id/confirm`
+- [x] `OrderSuccess` page — confirmation, credited points, slot reminder
+- [x] `OrderCancel` page — back to cart
+- [x] ⚠️ No real banking data transmitted — simulation only
 
 ### GDPR & cookie tests
-- [ ] Optional scripts not loaded without consent
-- [ ] Optional cookies deleted on consent withdrawal
-- [ ] `auth_token` and `csrf_token` are `httpOnly` (not visible in JS)
-- [ ] Account deletion → data erased in database
-- [ ] Newsletter unsubscribe → cookie deleted
+- [x] Optional scripts not loaded without consent
+- [x] Optional cookies deleted on consent withdrawal
+- [x] `auth_token` and `csrf_token` are `httpOnly` (not visible in JS)
+- [x] Account deletion → data erased in database
+- [x] Newsletter unsubscribe → cookie deleted
 
 ### Teacher handoff
 - [ ] Verify `.env` is not on Git

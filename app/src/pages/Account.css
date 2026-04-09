@@ -263,7 +263,36 @@
 .order-card__credit { color: #3d6b4f; }
 .order-card__pts    { color: #3d6b4f; font-weight: 700; }
 
+/* ── Newsletter prefs ── */
+.newsletter-pref {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.newsletter-pref__status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.newsletter-pref__badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.newsletter-pref__badge--on  { background: #d4edda; color: #155724; }
+.newsletter-pref__badge--off { background: #e8e0d8; color: #555; }
+
 /* ── Cookie prefs ── */
+.cookie-pref__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
 .cookie-pref {
   display: flex;
   flex-direction: column;
