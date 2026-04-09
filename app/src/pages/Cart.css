@@ -1,0 +1,319 @@
+.cart-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+}
+
+.cart-page__status {
+  text-align: center;
+  color: #888;
+  padding: 3rem 1.25rem;
+  margin: 0;
+}
+.cart-page__status--error { color: #c0392b; }
+
+.cart-page__link {
+  color: #3d6b4f;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cart-page__link:hover { text-decoration: underline; }
+
+/* ── Hero ── */
+.cart-page__hero {
+  padding: 2rem 1.25rem 1.5rem;
+}
+
+.cart-page__title {
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4rem;
+  color: #1a1a1a;
+}
+
+.cart-page__tagline {
+  font-size: 0.95rem;
+  color: #3d6b4f;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Empty ── */
+.cart-page__empty {
+  text-align: center;
+  padding: 3rem 1.25rem;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Item list ── */
+.cart-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  border-bottom: 1px solid #f0ede9;
+  padding: 1rem 0;
+}
+.cart-item:first-child { border-top: 1px solid #f0ede9; }
+
+/* Small product thumbnail */
+.cart-item__img,
+.cart-item__img-placeholder {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.cart-item__img-placeholder { background: #e8e0d8; }
+
+.cart-item__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cart-item__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.cart-item__name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.cart-item__price {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #3d6b4f;
+  white-space: nowrap;
+}
+
+.cart-item__custom {
+  font-size: 0.75rem;
+  color: #b0a89e;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.cart-item__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+.cart-item__qty {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.cart-item__remove {
+  font-size: 0.78rem;
+  color: #c0392b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 600;
+}
+.cart-item__remove:hover:not(:disabled) { opacity: 0.7; }
+.cart-item__remove:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Slot picker ── */
+.cart-page__slot-section {
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid #f0ede9;
+}
+
+.cart-page__slot-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #aaa;
+  margin: 0 0 0.75rem;
+}
+
+/* Collapsed state — badge + modify button */
+.cart-page__slot-chosen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #f7f4f0;
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+}
+
+.cart-page__slot-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cart-page__slot-clock {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.cart-page__slot-time {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.cart-page__slot-change {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #3d6b4f;
+  background: none;
+  border: 1.5px solid #3d6b4f;
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.cart-page__slot-change:hover { background: #3d6b4f; color: #fff; }
+
+/* Expanded state — grid of pills */
+.cart-page__slot-dropdown {
+  background: #f7f4f0;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.cart-page__slot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.cart-page__slot-pill {
+  padding: 8px 4px;
+  border: 1.5px solid #d8d2cc;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  line-height: 1.2;
+}
+.cart-page__slot-pill:hover { border-color: #3d6b4f; color: #3d6b4f; }
+.cart-page__slot-pill--active {
+  border-color: #3d6b4f;
+  background: #3d6b4f;
+  color: #fff;
+}
+
+/* ── Loyalty ── */
+.cart-page__loyalty {
+  margin: 0;
+  padding: 1.25rem 1.25rem;
+  border-bottom: 1px solid #f0ede9;
+  background: #f0f7f3;
+}
+
+.cart-page__loyalty-notice {
+  font-size: 0.875rem;
+  color: #1a1a1a;
+  margin: 0 0 0.6rem;
+}
+
+.cart-page__loyalty-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.cart-page__loyalty-check {
+  width: 16px;
+  height: 16px;
+  accent-color: #3d6b4f;
+  flex-shrink: 0;
+}
+
+/* ── Summary ── */
+.cart-page__summary {
+  padding: 1.25rem 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cart-page__summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.cart-page__summary-credit {
+  color: #3d6b4f;
+  font-weight: 600;
+}
+
+.cart-page__summary-total {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  border-top: 1px solid #e8e0d8;
+  padding-top: 0.5rem;
+  margin-top: 0.1rem;
+}
+
+.cart-page__proceed {
+  margin-top: 0.75rem;
+  width: 100%;
+  padding: 15px 24px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.15s;
+}
+.cart-page__proceed:hover:not(:disabled) { background: #333; }
+.cart-page__proceed:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Bottom banner ── */
+.cart-page__banner { margin-top: 3rem; }
+.cart-page__banner-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .cart-page__slot-grid { grid-template-columns: repeat(2, 1fr); }
+  .cart-page__banner-img { height: 200px; }
+}

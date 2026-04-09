@@ -10,9 +10,12 @@ export function Footer() {
     <footer className="footer">
       <div className="footer__inner">
 
-        <p className="footer__brand">🍵 Oh My Matcha — Paris</p>
+        <p className="footer__brand">Oh My Matcha — Nice</p>
 
-        <nav className="footer__links" aria-label="Liens légaux">
+        <nav className="footer__links" aria-label="Liens du site">
+          <Link to="/contact" className="footer__link">Contact</Link>
+          <Link to="/salon" className="footer__link">Le Salon</Link>
+          <Link to="/fidelite" className="footer__link">Fidélité</Link>
           <Link to="/privacy" className="footer__link">Politique de confidentialité</Link>
           <Link to="/terms" className="footer__link">CGV</Link>
           <Link to="/legal" className="footer__link">Mentions légales</Link>

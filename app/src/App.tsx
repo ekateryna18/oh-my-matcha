@@ -22,6 +22,9 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import LegalNotice from './pages/LegalNotice';
 import CookiePolicy from './pages/CookiePolicy';
+import Fidelite from './pages/Fidelite';
+import LeSalon from './pages/LeSalon';
+import Contact from './pages/Contact';
 
 function App() {
   useEffect(() => {
@@ -42,6 +45,11 @@ function App() {
             <Route path="menu/:id" element={<ProductDetail />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+
+            {/* Editorial — public */}
+            <Route path="fidelite" element={<Fidelite />} />
+            <Route path="salon" element={<LeSalon />} />
+            <Route path="contact" element={<Contact />} />
 
             {/* Legal — public */}
             <Route path="privacy" element={<PrivacyPolicy />} />

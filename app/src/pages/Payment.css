@@ -1,0 +1,194 @@
+.payment-page {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+.payment-page__back {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #3d6b4f;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+}
+.payment-page__back:hover { text-decoration: underline; }
+
+.payment-page__title {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 900;
+  margin: 0 0 1.5rem;
+  color: #1a1a1a;
+}
+
+/* ── Recap ── */
+.payment-page__recap {
+  background: #f7f4f0;
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.payment-recap__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.payment-recap__row--credit { color: #3d6b4f; }
+
+.payment-recap__row--total {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-top: 1px solid #e2ddd8;
+  padding-top: 0.45rem;
+  margin-top: 0.1rem;
+}
+
+/* ── Form ── */
+.payment-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Fieldset ── */
+.payment-fieldset {
+  border: 1.5px solid #e2ddd8;
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+}
+
+.payment-fieldset--card {
+  background: #fafaf9;
+}
+
+.payment-fieldset__legend {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #888;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.payment-fieldset__lock {
+  width: 14px;
+  height: 14px;
+  color: #3d6b4f;
+  flex-shrink: 0;
+}
+
+.payment-fieldset__notice {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin: -0.25rem 0 0;
+  font-style: italic;
+}
+
+/* ── Fields ── */
+.payment-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.payment-field--zip  { flex: 0 0 120px; }
+.payment-field--cvv  { flex: 0 0 100px; }
+
+.payment-field-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.payment-field__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.payment-field__input {
+  padding: 10px 13px;
+  border: 1.5px solid #d0ccc8;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+  width: 100%;
+}
+.payment-field__input::placeholder { color: #c0bab5; }
+.payment-field__input:focus {
+  outline: none;
+  border-color: #3d6b4f;
+  box-shadow: 0 0 0 3px rgba(61, 107, 79, 0.12);
+}
+
+.payment-field__input--mono {
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.08em;
+}
+
+/* ── Error ── */
+.payment-page__error {
+  font-size: 0.85rem;
+  color: #c0392b;
+  background: #fdf0ee;
+  border: 1px solid #f5c6c1;
+  border-radius: 9px;
+  padding: 10px 13px;
+  margin: 0;
+}
+
+/* ── Actions ── */
+.payment-page__pay {
+  width: 100%;
+  padding: 15px 24px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.15s;
+}
+.payment-page__pay:hover:not(:disabled) { background: #333; }
+.payment-page__pay:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.payment-page__cancel {
+  width: 100%;
+  padding: 12px 24px;
+  background: none;
+  color: #999;
+  border: 1.5px solid #e0dbd6;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.payment-page__cancel:hover:not(:disabled) { border-color: #c0392b; color: #c0392b; }
+.payment-page__cancel:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Mobile ── */
+@media (max-width: 420px) {
+  .payment-field--zip { flex: 0 0 90px; }
+  .payment-field--cvv { flex: 0 0 80px; }
+}

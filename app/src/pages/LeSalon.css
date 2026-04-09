@@ -1,0 +1,151 @@
+/* ── Le Salon page — mobile-first ── */
+.salon {
+  padding: 0 0 5rem;
+}
+
+/* Title */
+.salon__title {
+  font-size: clamp(2.2rem, 9vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin: 0;
+  padding: 2rem 1.25rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Shopfront image — left-aligned */
+.salon__front-wrap {
+  padding: 1.75rem 1.25rem;
+}
+
+.salon__front-img {
+  width: 52%;
+  max-width: 260px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  background: #e8e0d8;
+}
+
+/* Story text */
+.salon__story {
+  padding: 0 1.25rem 2rem;
+  max-width: 720px;
+}
+
+.salon__story-heading {
+  font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+  color: #1a1a1a;
+}
+
+.salon__story-text {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #555;
+  margin: 0;
+  max-width: 520px;
+}
+
+/* Interior image — full bleed */
+.salon__interior-wrap {
+  background: #f7f4f0;
+}
+
+.salon__interior-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  max-height: 480px;
+  background: #d0c8be;
+}
+
+.salon__caption {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.5rem;
+  max-width: 720px;
+}
+
+/* Values strip */
+.salon__values {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid #e0e0e0;
+  max-width: 720px;
+}
+
+.salon__value {
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.salon__value-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.salon__value strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.salon__value p {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── Desktop ── */
+@media (min-width: 640px) {
+  .salon__title {
+    padding: 2.5rem 2rem 1.5rem;
+  }
+
+  .salon__front-wrap {
+    padding: 2rem 2rem;
+  }
+
+  .salon__story {
+    padding: 0 2rem 2.5rem;
+    max-width: 600px;
+  }
+
+  .salon__caption {
+    padding: 1.5rem 2rem 2rem;
+    max-width: 600px;
+  }
+
+  .salon__interior-img {
+    max-height: 560px;
+  }
+}
+
+@media (min-width: 900px) {
+  .salon__values {
+    flex-direction: row;
+  }
+
+  .salon__value {
+    flex: 1;
+    border-bottom: none;
+    border-right: 1px solid #f0f0f0;
+    padding: 2rem 1.5rem;
+  }
+
+  .salon__value:last-child {
+    border-right: none;
+  }
+}

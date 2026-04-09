@@ -40,6 +40,12 @@ export function Header() {
           <NavLink to="/menu" className={navClass} onClick={close}>
             Commander
           </NavLink>
+          <NavLink to="/salon" className={navClass} onClick={close}>
+            Le Salon
+          </NavLink>
+          <NavLink to="/fidelite" className={navClass} onClick={close}>
+            Fidélité
+          </NavLink>
 
           {user ? (
             <>

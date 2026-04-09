@@ -180,6 +180,96 @@ function OrderHistory() {
   );
 }
 
+// ─── Newsletter preferences ────────────────────────────────────────────────────
+
+function NewsletterPrefs() {
+  const { user, login } = useAuth();
+  const { consents, updateConsents } = useConsent();
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const subscribed = user?.newsletterSubscribed ?? false;
+
+  async function refreshUser() {
+    const res = await fetch(`${API_URL}/users/me`, { credentials: 'include' });
+    if (res.ok) login(await res.json());
+  }
+
+  async function handleSubscribe() {
+    if (!user?.email) return;
+    setLoading(true);
+    setMsg(null);
+    try {
+      const res = await fetch(`${API_URL}/newsletter/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: user.email }),
+      });
+      if (!res.ok && res.status !== 201) { setMsg({ type: 'error', text: 'Impossible de s\'inscrire.' }); return; }
+      await updateConsents({ marketing: true, functional: consents?.functional ?? false });
+      await refreshUser();
+      setMsg({ type: 'success', text: 'Inscription confirmée ✓' });
+    } catch {
+      setMsg({ type: 'error', text: 'Erreur réseau. Veuillez réessayer.' });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleUnsubscribe() {
+    if (!user?.email) return;
+    setLoading(true);
+    setMsg(null);
+    try {
+      const res = await fetch(`${API_URL}/newsletter/unsubscribe`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: user.email }),
+      });
+      if (!res.ok && res.status !== 204) { setMsg({ type: 'error', text: 'Impossible de se désinscrire.' }); return; }
+      await updateConsents({ marketing: false, functional: consents?.functional ?? false });
+      await refreshUser();
+      setMsg({ type: 'success', text: 'Désinscription effectuée ✓' });
+    } catch {
+      setMsg({ type: 'error', text: 'Erreur réseau. Veuillez réessayer.' });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <section className="account__section">
+      <h2 className="account__section-title">Newsletter</h2>
+      <div className="newsletter-pref">
+        <div className="newsletter-pref__status">
+          <span className={`newsletter-pref__badge ${subscribed ? 'newsletter-pref__badge--on' : 'newsletter-pref__badge--off'}`}>
+            {subscribed ? 'Inscrit(e)' : 'Non inscrit(e)'}
+          </span>
+          <p className="account__hint">
+            {subscribed
+              ? 'Vous recevez nos actualités et offres exclusives.'
+              : 'Recevez nos actualités, nouveautés et offres exclusives.'}
+          </p>
+        </div>
+        {msg && (
+          <p className={`account__msg account__msg--${msg.type}`} role="alert">{msg.text}</p>
+        )}
+        {subscribed ? (
+          <button type="button" className="account__btn account__btn--ghost" onClick={handleUnsubscribe} disabled={loading}>
+            {loading ? 'En cours…' : 'Se désinscrire'}
+          </button>
+        ) : (
+          <button type="button" className="account__btn" onClick={handleSubscribe} disabled={loading}>
+            {loading ? 'En cours…' : 'S\'inscrire à la newsletter'}
+          </button>
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ─── Cookie preferences ────────────────────────────────────────────────────────
 
 function CookiePrefs() {
@@ -188,7 +278,8 @@ function CookiePrefs() {
   const [functional, setFunctional] = useState(consents?.functional ?? false);
   const [saved, setSaved] = useState(false);
 
-  async function handleSave() {
+  async function handleSave(e: React.MouseEvent<HTMLButtonElement>) {
+    e.currentTarget.blur();
     await updateConsents({ marketing, functional });
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
@@ -223,10 +314,14 @@ function CookiePrefs() {
           />
         </label>
       </div>
-      {saved && <p className="account__msg account__msg--success">Préférences enregistrées ✓</p>}
-      <button className="account__btn account__btn--outline" onClick={handleSave}>
-        Enregistrer mes choix
-      </button>
+      <div className="cookie-pref__actions">
+        <p className="account__msg account__msg--success" style={{ visibility: saved ? 'visible' : 'hidden' }}>
+          Préférences enregistrées ✓
+        </p>
+        <button type="button" className="account__btn account__btn--outline" onClick={handleSave}>
+          Enregistrer mes choix
+        </button>
+      </div>
     </section>
   );
 }
@@ -302,6 +397,7 @@ export default function Account() {
       <PersonalInfo />
       <LoyaltyMini />
       <OrderHistory />
+      <NewsletterPrefs />
       <CookiePrefs />
       <DangerZone />
     </div>
