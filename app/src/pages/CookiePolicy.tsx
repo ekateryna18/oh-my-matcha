@@ -26,18 +26,6 @@ export default function CookiePolicy() {
           </thead>
           <tbody>
             <tr>
-              <td><code>session_id</code></td>
-              <td>Identifie la session serveur de l'utilisateur. Protégé contre les attaques XSS.</td>
-              <td>Session</td>
-              <td>Oui</td>
-            </tr>
-            <tr>
-              <td><code>csrf_token</code></td>
-              <td>Protection contre les attaques CSRF sur les formulaires et paiements.</td>
-              <td>Session</td>
-              <td>Non</td>
-            </tr>
-            <tr>
               <td><code>cart_id</code></td>
               <td>Identifie le panier de l'utilisateur. Protégé contre les attaques XSS.</td>
               <td>Session</td>

@@ -207,6 +207,12 @@ function NewsletterPrefs() {
         body: JSON.stringify({ email: user.email }),
       });
       if (!res.ok && res.status !== 201) { setMsg({ type: 'error', text: 'Impossible de s\'inscrire.' }); return; }
+      await fetch(`${API_URL}/users/me`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ newsletterSubscribed: true }),
+      });
       await updateConsents({ marketing: true, functional: consents?.functional ?? false });
       await refreshUser();
       setMsg({ type: 'success', text: 'Inscription confirmée ✓' });
@@ -229,6 +235,12 @@ function NewsletterPrefs() {
         body: JSON.stringify({ email: user.email }),
       });
       if (!res.ok && res.status !== 204) { setMsg({ type: 'error', text: 'Impossible de se désinscrire.' }); return; }
+      await fetch(`${API_URL}/users/me`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ newsletterSubscribed: false }),
+      });
       await updateConsents({ marketing: false, functional: consents?.functional ?? false });
       await refreshUser();
       setMsg({ type: 'success', text: 'Désinscription effectuée ✓' });
